@@ -48,6 +48,9 @@ As a framework I chose to use Flask-SQLAlchemy for this project due to the fact 
 * flask-sqlalchemy
 * mysql-python
 
+5. In the file **mgorest/configmodule.py** configure you database for development and testing by setting SQLALCHEMY_DATABASE_URI variable.
+
+
 ## Versioning support
 I am using flask Blueprints to easily support different versions. Each version should be put in a directory under inner **mgorest/** folder. Simply register new blueprint for new version in *mgorest/\_\_init\_\_.py* (inner *mgorest*).
 
