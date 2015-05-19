@@ -44,14 +44,12 @@ Note that if you want to use this script multiple times, you will need to drop t
 
 ### Run 
 1. Start the Server.
-* - cd into inner mgorest/ *
+- cd into inner mgorest/
 
 2. Install Python library requests, e.g. *pip install requests*.
 
 3. Run python shell.
-*
-import requests
-payload = {'login': 'bob', 'password': 'bob1234'}
-r = requests.post("http://localhost:5000/auth", json=payload)
-r.json()
-*
+*import requests*
+*payload = {'login': 'bob', 'password': 'bob1234'}*
+*r = requests.post("http://localhost:5000/auth", json=payload)*
+*r.json()*
