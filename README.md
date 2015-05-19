@@ -5,9 +5,9 @@ A small Webservice using flask-SQLAlchemy Python framework. The project contains
 
 - Endpoint that authenticates a user based on a login/password passed in a JSON payload and verifies against MySQL.
 
-*POST http://localhost:5000/auth*
+    *POST http://localhost:5000/auth*
 
-*JSON payload : {'login': 'bob', 'password': 'bob1234'}*
+    *JSON payload : {'login': 'bob', 'password': 'bob1234'}*
 
 **Note: the latest version (v1_0) is default, however, you can also explicitly specify version in URL, e.g.**
 
