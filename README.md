@@ -9,11 +9,11 @@ A small Webservice using flask-SQLAlchemy Python framework. The project contains
 
   *JSON payload : {'login': 'bob', 'password': 'bob1234'}*
 
-**Note: the latest version (v1_0) is default, however, you can also explicitly specify version in URL, e.g.**
+  **Note: the latest version (v1_0) is default, however, you can also explicitly specify version in URL, e.g.**
 
-  *POST http://localhost:5000/v1_0/auth*
+    *POST http://localhost:5000/v1_0/auth*
 
-  *JSON payload : {'login': 'bob', 'password': 'bob1234'}*
+    *JSON payload : {'login': 'bob', 'password': 'bob1234'}*
 
 - Endpoint that returns all users in the database filtered by city (as a URL parameter) and groups them by occupation.
 
