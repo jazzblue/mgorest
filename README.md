@@ -65,7 +65,7 @@ The tests can be run by:
 *>python tests.py*
 
 ## Pagination
-Pagination is supported for the "filter" webservice. It is easily implemented using Flask-SQLAlchemy **paginate** method. If the page is secified in the URL then the response is paginated, otherwise, if page is omitted from URL, the response is not paginated.
+Pagination is supported for the "filter" webservice. It is easily implemented using Flask-SQLAlchemy **paginate** method. If the page is specified in the URL then the response is paginated, otherwise, if page is omitted from URL, the response is not paginated.
 
 ## Webservice sample usage
 
