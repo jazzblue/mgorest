@@ -1,4 +1,4 @@
-#!flask/bin/python
+#!/usr/bin/env python
 
 """
 This script initializes and populates DB for manual testing.
