@@ -44,9 +44,9 @@ As a framework I chose to use Flask-SQLAlchemy for this project due to the fact 
 
 4. Install following Python libraries (if you install using pip, make sure you have pip installed and then install: *pip install <library>*):
 
-* flask
-* flask-sqlalchemy
-* mysql-python
+  * flask
+  * flask-sqlalchemy
+  * mysql-python
 
 5. In the file **mgorest/configmodule.py** configure you database for development and testing by setting SQLALCHEMY_DATABASE_URI variable.
 
