@@ -11,27 +11,27 @@ A small Webservice using flask-SQLAlchemy Python framework. The project contains
 
 **Note: the latest version (v1_0) is default, however, you can also explicitly specify version in URL, e.g.**
 
-*POST http://localhost:5000/v1_0/auth*
+    *POST http://localhost:5000/v1_0/auth*
 
-*JSON payload : {'login': 'bob', 'password': 'bob1234'}*
+    *JSON payload : {'login': 'bob', 'password': 'bob1234'}*
 
 - Endpoint that returns all users in the database filtered by city (as a URL parameter) and groups them by occupation.
 
 without pagination:
 
- *GET http://localhost:5000/filter?city=London*
+    *GET http://localhost:5000/filter?city=London*
 
 with pagination:
 
- *GET http://localhost:5000/filter/1?city=London*
+    *GET http://localhost:5000/filter/1?city=London*
 
 - Endpoint that checks and returns the status of all components that it depends on: DB, disc.
 
-*GET http://localhost:5000/systemcheck*
+    *GET http://localhost:5000/systemcheck*
 
 - Endpoint that when called returns the list of files in a given directory.
 
-*GET http://localhost:5000/listdir?dir=/home/mylogin/projects* 
+    *GET http://localhost:5000/listdir?dir=/home/mylogin/projects* 
 
 ## Stack
 As a framework I chose to use Flask-SQLAlchemy for this project due to the fact that it is relatively lightweight, quite easy to set up and start coding away, adding on incrementally. For DB I am using MySQL as it is an adequate choice for the given requirements: the data can easily utilize relational model.
@@ -63,9 +63,9 @@ The file contains a number of important tests, however, I do not claim full cove
 
 The tests can be run by:
 
-*cd into mgorest/v1_0/ directory.*
+  *cd into mgorest/v1_0/ directory.*
 
-*>python tests.py*
+  *>python tests.py*
 
 ## Pagination
 Pagination is supported for the "filter" webservice. It is easily implemented using Flask-SQLAlchemy **paginate** method. If the page is specified in the URL then the response is paginated, otherwise, if page is omitted from URL, the response is not paginated.
@@ -82,18 +82,18 @@ You can populate DB using the following script in the outer **mgorest** director
 ### Run 
 1. Start the Server.
 
-*cd into inner mgorest/*
+  *cd into inner mgorest/*
 
 2. Install Python library requests, e.g. 
 
-*>pip install requests*.
+  *>pip install requests*.
 
 3. Run python shell. Then:
 
-*>>>import requests*
+  *>>>import requests*
 
-*>>>payload = {'login': 'bob', 'password': 'bob1234'}*
+  *>>>payload = {'login': 'bob', 'password': 'bob1234'}*
 
-*>>>r = requests.post("http://localhost:5000/auth", json=payload)*
+  *>>>r = requests.post("http://localhost:5000/auth", json=payload)*
 
-*>>>r.json()*
+  *>>>r.json()*
