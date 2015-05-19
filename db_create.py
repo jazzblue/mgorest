@@ -1,10 +1,9 @@
 #!flask/bin/python
 
-#from migrate.versioning import api
-#from config import SQLALCHEMY_DATABASE_URI
-#from config import SQLALCHEMY_MIGRATE_REPO
+"""
+This script initializes and populates DB for manual testing.
+"""
 
-#import os.path
 from mgorest.v1_0.models import User
 from mgorest import db, app
 
