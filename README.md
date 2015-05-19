@@ -32,14 +32,11 @@ TBD
 
 ## Webservice sample usage
 
-
-### Populate DB
-
 Here is the example on how you can try out the webservice API using Python.
 
 ### Populate DB
-You can populate DB using the following script in the outer mgorest directory.
-Note that if you want to use this script multiple times, you will need to drop the **users** table, each time prior to usage, otherwise, you will get "Primary key conflicts".
+You can populate DB using the following script in the outer **mgores**t directory. Note that if you want to use this script multiple times, you will need to drop the **users** table, each time prior to usage, otherwise, you will get "Primary key conflicts":
+
 *python db_create.py*
 
 ### Run 
@@ -49,7 +46,7 @@ Note that if you want to use this script multiple times, you will need to drop t
 
 2. Install Python library requests, e.g. *pip install requests*.
 
-3. Run python shell.
+3. Run python shell. Then:
 
 *import requests*
 
