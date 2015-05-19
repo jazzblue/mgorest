@@ -17,13 +17,13 @@ A small Webservice using flask-SQLAlchemy Python framework. The project contains
 
 - Endpoint that returns all users in the database filtered by city (as a URL parameter) and groups them by occupation.
 
-without pagination:
+  without pagination:
 
-  *GET http://localhost:5000/filter?city=London*
+    *GET http://localhost:5000/filter?city=London*
 
-with pagination:
+  with pagination:
 
-  *GET http://localhost:5000/filter/1?city=London*
+    *GET http://localhost:5000/filter/1?city=London*
 
 - Endpoint that checks and returns the status of all components that it depends on: DB, disc.
 
