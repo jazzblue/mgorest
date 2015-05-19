@@ -24,7 +24,8 @@ I am using flask Blueprints to easily support different versions.
 ## Unittesting
 Unitest is per version. Currently there is only one version **v1_0**. You can find it in the file *mgorest/v1_0/tests.py*. You can run it:
 
-*>cd into mgorest/v1_0/ directory.*
+*cd into mgorest/v1_0/ directory.*
+
 *>python tests.py*
 
 ## Pagination
