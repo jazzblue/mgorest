@@ -7,7 +7,7 @@ import json
 
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 mgo_api_logger = logging.getLogger(__name__)
 
 api = Blueprint('api_v1_0', __name__)
@@ -15,10 +15,6 @@ api = Blueprint('api_v1_0', __name__)
 @api.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Resource not found.'}), 404)
-
-@api.errorhandler(404)
-def system_unavailable(error):
-    return make_response(jsonify({'error': 'System component unavailable.'}), 500)
 
 @api.route('/auth', methods=['POST'])
 def auth():
@@ -47,13 +43,12 @@ def auth():
 def filter_and_group():
     """
     Filters by city, groups by occupation.
+    return: JSON of the shape:
+        {<occupation1>: [<login1>, <login2>, ...], <occupation1>: [<login1>, <login2>, ...], ...}
     """
     city = request.args.get('city')
 
-    try:
-        query_result = User.query.with_entities(User.login, User.occupation).filter_by(city=city).order_by(User.occupation).all()
-    except:
-        abort(500)
+    query_result = User.query.with_entities(User.login, User.occupation).filter_by(city=city).order_by(User.occupation).all()
 
     mgo_api_logger.debug('filter-n-group: ' + str(query_result))
 
@@ -69,18 +64,43 @@ def filter_and_group():
 
     return jsonify(occupation_users)
 
+@api.route('/systemcheck', methods=['GET'])
+def system_check():
+    """
+    return: list of all components this webservice depends on: DB, disc: {'db_status': 'OK'/'Fail', 'disc_status': 'OK'/'Fail'}
+    """
+
+    # MySQL check: run a simple short query that should not fail if DB is up.
+    try:
+        user = User.query.first()
+        db_status = 'OK'
+    except:
+        db_status = 'Fail'
+    
+    # Disc check: we will try to get contents of root directory "/" it should always work if the disc is up.
+    try:
+        dir_list = os.listdir('/')
+        disc_status = 'OK'
+    except:
+        disc_status = 'Fail'
+
+    return json.dumps(dict(db_status=db_status, disc_status=disc_status))
+
 @api.route('/listdir', methods=['GET'])
 def list_dir():
+    """
+    return: list of files in a directory specified by "dir" argument.
+    """
     dir =  request.args.get('dir')
 
     try:
         dir_list = os.listdir(dir)
-    except Exception as e:
-        if 'No such file or directory' in e:
-            mgo_api_logger.debug('llistdir error: ' + str(e))
-            abort(404)
-    else:
-        
+    except Exception as e:  # directory not found.
+
+        mgo_api_logger.debug('listdir error: ' + str(e))
+
+        abort(404)
+    else:        
         mgo_api_logger.debug('listdir: ' + str(dir_list))
 
         return json.dumps(dir_list)

@@ -1,29 +1,23 @@
 import unittest
-#import os
-
-#from config import basedir
-#from mgo.models_common import APP_MODE
-#APP_MODE = 'Testing'
-
-#from models import db, User
 from mgorest import db, app
 from mgorest.v1_0.models import User
-#from mgorest import configmodule
-#from app.models import User
-#import requests
-#from flask import jsonify
 import json
+
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+mgo_logger = logging.getLogger(__name__)
+mgo_logger.setLevel(logging.INFO)
 
 class TestCase(unittest.TestCase):
     def setUp(self):
-        app.config.from_object('mgorest.configmodule.TestingConfig')  # Import configuration
-
-#        app.config['TESTING'] = True
-#        app.config['WTF_CSRF_ENABLED'] = False
-#        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:sqlrootpw@localhost/mgo_test'
+        app.config.from_object('mgorest.configmodule.TestingConfig')  # Import test configuration
+        
+        mgo_logger.debug('test DB: ' + app.config['SQLALCHEMY_DATABASE_URI'])
 
         self.test_app = app.test_client()
 
+        # Populate test DB.
         users = [
             dict(login='paul', password='paul1234', first_name='Paul', last_name='M.', occupation='Musician', city='London'),
             dict(login='ritchie', password='ritch1234', first_name='Ritchie', last_name='B.', occupation='Musician', city='London'),
@@ -54,14 +48,20 @@ class TestCase(unittest.TestCase):
 
 
     def tearDown(self):
+
+        app.config.from_object('mgorest.configmodule.TestingConfig')  # Import test configuration
+
         with app.test_request_context():
             db.session.remove()
             db.drop_all()
 
     def test_auth_success(self):
-        login = 'bob'
-        password = 'bob1234'
+        """Tests successful authentication."""
 
+        login = 'bob'
+        password = 'bob1234'  # correct password
+
+        # Call webservice.
         rv = self.test_app.post('/auth', data=json.dumps(dict(login=login, password=password)), content_type = 'application/json')
 
         response = json.loads(rv.data)
@@ -73,14 +73,52 @@ class TestCase(unittest.TestCase):
 
     def test_auth_fail(self):
         pass
+        """Tests failed authentication."""
+
+        login = 'bob'
+        password = 'bob5678'  # wrong password
+
+        # Call webservice.
+        rv = self.test_app.post('/auth', data=json.dumps(dict(login=login, password=password)), content_type = 'application/json')
+
+        response = json.loads(rv.data)
+
+        assert 'login' in response
+        assert response['login'] == login
+        assert 'authentication_status' in response
+        assert response['authentication_status'] == 'Fail'
 
     def test_filter(self):
+        """Tests "filter" webservice. Expects user logins by occupation, from London. """
         rv = self.test_app.get('/filter?city=London')
         assert json.loads(rv.data) == {u'Musician': [u'paul', u'ritchie'], u'Actor': [u'stanley', u'peter']}
 
-    def test_resources(self):
-        #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:sqlrootpw@localhost/mgo_tes'
+    def test_systemcheck_ok(self):
+        """Tests systemcheck webservice. Verifies that DB and disc have OK status in regular situation."""
+
+        rv = self.test_app.get("/systemcheck")
+        assert json.loads(rv.data) == dict(db_status='OK', disc_status='OK')
+
+    def test_systemcheck_db_fail(self):
+        """Tests systemcheck webservice. Simulates DB failure and verifies that DB status is fail."""
+
+        # Corrupt db name, i.e. simulate DB failure.
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:sqlrootpw@localhost/xxx'
+        rv = self.test_app.get("/systemcheck")
+        assert json.loads(rv.data) == dict(db_status='Fail', disc_status='OK')
+
+    def test_listdir_success(self):
+        """Tests listdir webservice. Verifies that contents of existing directory are listed successfully."""
+        # TBD: this tests depends on deployment, i.e. what directories/files are on deployment machine.
+        # I will leave it empty for the purpose of thos project.
         pass
+
+
+    def test_listdir_fail(self):
+        """TBD: Tests listdir webservice. Verifies that listing non-exiting directory returns appropriate response."""
+        pass
+
+    
 
 if __name__ == '__main__':
     unittest.main()
