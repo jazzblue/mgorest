@@ -1,3 +1,5 @@
+# Pagination
+ENTRIES_PER_PAGE = 3
 
 class Config(object):
     DEBUG = False

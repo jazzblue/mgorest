@@ -1,7 +1,7 @@
 # MGOREST
 
 ## Description
-A small Webservice using flask-SQLAlchemy Python framework. The project contains versioning support and unittesting. The webservice consists of four endpoints:
+A small Webservice using flask-SQLAlchemy Python framework. The project contains versioning support, pagination support and unittesting. The webservice consists of four endpoints:
 
 - Endpoint that authenticates a user based on a login/password passed in a JSON payload and verifies against MySQL.
 
@@ -17,7 +17,13 @@ A small Webservice using flask-SQLAlchemy Python framework. The project contains
 
 - Endpoint that returns all users in the database filtered by city (as a URL parameter) and groups them by occupation.
 
+without pagination:
+
  *GET http://localhost:5000/filter?city=London*
+
+with pagination:
+
+ *GET http://localhost:5000/filter/1?city=London*
 
 - Endpoint that checks and returns the status of all components that it depends on: DB, disc.
 
@@ -26,9 +32,6 @@ A small Webservice using flask-SQLAlchemy Python framework. The project contains
 - Endpoint that when called returns the list of files in a given directory.
 
 *GET http://localhost:5000/listdir?dir=/home/mylogin/projects* 
-
-
-TBD
 
 ## Stack
 As a framework I chose to use Flask-SQLAlchemy for this project due to the fact that it is relatively lightweight and it is quite easy to set up and start coding away, adding on incrementally. For DB I am using MySQL as it is an adequate choice for the given requirements: the data can easily utilize relaional model.
@@ -62,7 +65,7 @@ The tests can be run by:
 *>python tests.py*
 
 ## Pagination
-TBD
+Pagination is supported for the "filter" webservice. It is easily implemented using Flask-SQLAlchemy **paginate** method. If the page is secified in the URL then the response is paginated, otherwise, if page is omitted from URL, the response is not paginated.
 
 ## Webservice sample usage
 

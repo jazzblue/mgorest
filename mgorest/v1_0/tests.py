@@ -88,10 +88,20 @@ class TestCase(unittest.TestCase):
         assert 'authentication_status' in response
         assert response['authentication_status'] == 'Fail'
 
-    def test_filter(self):
-        """Tests "filter" webservice. Expects user logins by occupation, from London. """
+    def test_filter_no_paginate(self):
+        """Tests "filter" webservice with no pagination. Expects user logins by occupation, from London. """
         rv = self.test_app.get('/filter?city=London')
         assert json.loads(rv.data) == {u'Musician': [u'paul', u'ritchie'], u'Actor': [u'stanley', u'peter']}
+
+    def test_filter_paginate_1(self):
+        """Tests "filter" webservice with pagination. Expects user logins by occupation, from London. """
+        rv = self.test_app.get('/filter/1?city=London')
+        assert json.loads(rv.data) == {u'Musician': [u'paul'], u'Actor': [u'stanley', u'peter']}
+
+    def test_filter_paginate_2(self):
+        """Tests "filter" webservice with pagination. Expects user logins by occupation, from London. """
+        rv = self.test_app.get('/filter/2?city=London')
+        assert json.loads(rv.data) == {u'Musician': [u'ritchie']}
 
     def test_systemcheck_ok(self):
         """Tests systemcheck webservice. Verifies that DB and disc have OK status in regular situation."""

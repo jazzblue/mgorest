@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, abort
 from mgorest import db
 from models import User
+from mgorest.configmodule import ENTRIES_PER_PAGE
 from flask import make_response
 import os
 import json
@@ -40,7 +41,8 @@ def auth():
         return jsonify({'login': user.login, 'authentication_status': 'Fail'})
 
 @api.route('/filter', methods=['GET'])
-def filter_and_group():
+@api.route('/filter/<int:page>', methods=['GET'])
+def filter_and_group(page=None):
     """
     Filters by city, groups by occupation.
     return: JSON of the shape:
@@ -48,7 +50,11 @@ def filter_and_group():
     """
     city = request.args.get('city')
 
-    query_result = User.query.with_entities(User.login, User.occupation).filter_by(city=city).order_by(User.occupation).all()
+    if page is None:  # page is not specified in URL, do not paginate.
+        query_result = User.query.with_entities(User.login, User.occupation).filter_by(city=city).order_by(User.occupation).all()
+
+    else: # page is specified in URL, paginate.
+        query_result = User.query.with_entities(User.login, User.occupation).filter_by(city=city).order_by(User.occupation).paginate(page, ENTRIES_PER_PAGE, False).items
 
     mgo_api_logger.debug('filter-n-group: ' + str(query_result))
 
