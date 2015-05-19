@@ -9,7 +9,7 @@ A small Webservice using flask-SQLAlchemy Python framework. The project contains
 
 *JSON payload : {'login': 'bob', 'password': 'bob1234'}*
 
-**Note: the latest version (v1_0) is default, however, you can also explicitly specify version in URL, e.g.
+**Note: the latest version (v1_0) is default, however, you can also explicitly specify version in URL, e.g.**
 
 *POST http://localhost:5000/v1_0/auth*
 
@@ -34,11 +34,11 @@ with pagination:
 *GET http://localhost:5000/listdir?dir=/home/mylogin/projects* 
 
 ## Stack
-As a framework I chose to use Flask-SQLAlchemy for this project due to the fact that it is relatively lightweight and it is quite easy to set up and start coding away, adding on incrementally. For DB I am using MySQL as it is an adequate choice for the given requirements: the data can easily utilize relaional model.
+As a framework I chose to use Flask-SQLAlchemy for this project due to the fact that it is relatively lightweight, quite easy to set up and start coding away, adding on incrementally. For DB I am using MySQL as it is an adequate choice for the given requirements: the data can easily utilize relational model.
 
 ## Deployment
 1. Install python2.7
-2. Set PYTHONPATH environment variable to point to root of the project, for example if you use bash: *export PYTHONPATH=/home/mylogin/projects/mgorest*
+2. Set PYTHONPATH environment variable to point to the root of the project, for example if you use bash: *export PYTHONPATH=/home/mylogin/projects/mgorest*
 
 3. I used MySQL as RDBMS for this project. If you intend to use MySQL as well make sure you have all the needed drivers, for example on Ubuntu you migh need: *sudo apt-get install libmysqlclient-dev*
 
@@ -49,7 +49,7 @@ As a framework I chose to use Flask-SQLAlchemy for this project due to the fact 
 * mysql-python
 
 ## Versioning support
-I am using flask Blueprints to easily support different versions. Each version should be put in a directory under inner **mgorest/** folder. Simply register new blueprint for new versiob in *mgorest/__init__.py* (inner *mgorest*).
+I am using flask Blueprints to easily support different versions. Each version should be put in a directory under inner **mgorest/** folder. Simply register new blueprint for new version in *mgorest/\_\_init\_\_.py* (inner *mgorest*).
 
 Currently there is only one version **v1_0** and it is also registered as default version, i.e. it can be either specified or omitted in URL.
 
