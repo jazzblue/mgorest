@@ -26,9 +26,9 @@ with app.app_context():
 
     for user in users:
 
-        user_entry = User()
+        user_entry = User()  # Create new row in the table
 
-        for data_type in user:
+        for data_type in user:  # go over attributes an set corresponding (same name) column in the table
             setattr(user_entry, data_type, user[data_type])
 
         db.session.add(user_entry)
