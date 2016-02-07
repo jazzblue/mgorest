@@ -1,7 +1,7 @@
 # MGOREST
 
 ## Description
-A small Webservice using flask-SQLAlchemy Python framework. The project contains versioning support, pagination support and unittesting. The webservice consists of four endpoints:
+A multiple endpoint webservice implemented with flask-SQLAlchemy Python framework. The project contains versioning support, pagination support and unittesting. The webservice consists of four endpoints:
 
 - Endpoint that authenticates a user based on a login/password passed in a JSON payload and verifies against MySQL.
 
